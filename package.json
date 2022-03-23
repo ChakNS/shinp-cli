@@ -1,7 +1,7 @@
 {
   "name": "shinp-cli",
   "description": "Manage and create project templates",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "bin": {
     "shinp": "./dist/index.mjs"
   },
