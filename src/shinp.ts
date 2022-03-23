@@ -10,7 +10,7 @@ import { success } from './utils'
 
 const DEFAULT = {
   qiankun: {
-    url: 'www',
+    url: 'https://github.com/ChakNS/shinp-qiankun-template',
     branch: 'master'
   }
 }

@@ -1,24 +1,25 @@
 {
-  "name": "qiankun-cli",
-  "description": "Automatically create cli for qiankun framework",
+  "name": "shinp-cli",
+  "description": "Manage and create project templates",
   "version": "0.0.1",
   "bin": {
-    "shinp-cli": "./dist/index.mjs"
+    "shinp": "./dist/index.mjs"
   },
   "private": false,
   "license": "MIT",
   "author": "Chak <chakcheung4565@outlook.com>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ChakNS/qiankun-cli"
+    "url": "https://github.com/ChakNS/shinp-cli"
   },
-  "homepage": "https://github.com/ChakNS/qiankun-cli#readme",
-  "bugs": "https://github.com/ChakNS/qiankun-cli/issues",
+  "homepage": "https://github.com/ChakNS/shinp-cli#readme",
+  "bugs": "https://github.com/ChakNS/shinp-cli/issues",
   "files": [
     "dist"
   ],
   "keywords": [
     "qiankun",
+    "configstore",
     "vue",
     "cli",
     "template",
@@ -44,8 +45,7 @@
     "co": "^4.6.0",
     "co-prompt": "^1.0.0",
     "commander": "^9.1.0",
-    "configstore": "^6.0.0",
-    "shinp-cli": "^0.0.2"
+    "configstore": "^6.0.0"
   },
   "engines": {
     "node": ">=14.0.0",
