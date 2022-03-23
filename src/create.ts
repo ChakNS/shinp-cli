@@ -1,7 +1,8 @@
 import { exec } from 'child_process'
 import co from 'co'
 import prompt from 'co-prompt'
-import { error, success, tips } from './utils'
+import { resolve } from 'path'
+import { error, warn, success, tips, rmdir } from './utils'
 
 export default function (this: ShinpCli) {
   const config = this.config
@@ -28,6 +29,12 @@ export default function (this: ShinpCli) {
       if (err) {
         error(err)
         process.exit(1)
+      }
+
+      try {
+        rmdir(resolve(process.cwd(), `./${projectName}/.git`))
+      } catch (err) {
+        warn('\n An error occurred in deleting the .git, please delete it yourself!')
       }
       success('\n Generation completed!')
       success(`\n cd ${projectName} && yarn \n`)
