@@ -1,0 +1,52 @@
+{
+  "name": "qiankun-cli",
+  "description": "Automatically create cli for qiankun framework",
+  "version": "0.0.1",
+  "bin": {
+    "shinp-qiankun": "./dist/index.js"
+  },
+  "private": false,
+  "license": "MIT",
+  "author": "Chak <chakcheung4565@outlook.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ChakNS/qiankun-cli"
+  },
+  "homepage": "https://github.com/ChakNS/qiankun-cli#readme",
+  "bugs": "https://github.com/ChakNS/qiankun-cli/issues",
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "qiankun",
+    "vue",
+    "cli",
+    "template",
+    "auto"
+  ],
+  "scripts": {
+    "update:packages": "npm update --save-dev && npm update --save",
+    "dev": "npm run build -- --watch src",
+    "build": "tsup src/index.ts --format cjs --clean --onSuccess 'node src/copy.js'",
+    "release": "npx git-ensure -a && npx bumpp --commit --tag --push && npm publish",
+    "prepublishOnly": "npm run build"
+  },
+  "devDependencies": {
+    "@types/chalk": "^2.2.0",
+    "@types/co": "^4.6.3",
+    "@types/node": "^17.0.6",
+    "tsup": "^5.11.10",
+    "typescript": "^4.5.4"
+  },
+  "dependencies": {
+    "chalk": "^4.1.1",
+    "co": "^4.6.0",
+    "co-prompt": "^1.0.0",
+    "commander": "^9.1.0",
+    "shinp-cli": "^0.0.2"
+  },
+  "engines": {
+    "node": ">=14.0.0",
+    "npm": ">=6.0.0"
+  }
+}
