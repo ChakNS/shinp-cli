@@ -1,14 +1,11 @@
 import co from 'co'
 import prompt from 'co-prompt'
-import tempConfig from '../dist/config.json'
-import { ConfigType, PropertyType } from './types'
-import { writeFile } from 'fs'
-import { resolve, error, success, info } from './utils'
-import list from './list'
+import { error, success, info } from './utils'
+import listAll from './list'
 
-const config: {[tplName: string]: ConfigType} = tempConfig
-
-export default () => {
+export default function (this: ShinpCli) {
+  const config = this.config
+  const list = listAll.bind(this)
   co(function* () {
     const tplName = yield prompt('Which template do you want to update: ')
 
@@ -17,30 +14,47 @@ export default () => {
       process.exit(1)
     }
 
-    if (!config[tplName]) {
+    if (!config.has(tplName)) {
       error('Template does not exist!')
       process.exit(1)
     }
 
-    const property = yield prompt('Which property (url or branch) do you want to update: ')
+    const property = yield prompt('Which property (tplName | url | branch) do you want to update: ')
 
-    if (!['url', 'branch'].includes(property)) {
+    if (!['tplName', 'url', 'branch'].includes(property)) {
       error('The property is not supported')
       process.exit(1)
     }
 
     let result = yield prompt('Modify to: ')
 
+    if (property === 'tplName') {
+      try {
+        config.set(result, config.get(tplName))
+        config.delete(tplName)
+        success('Template updated!\n')
+        info('The last template list is: \n')
+        list()
+      } catch (err) {
+        error(err)
+      }
+
+      process.exit()
+    }
+
     if (property === 'url') {
       result = result.replace(/[\u0000-\u0019]/g, '')
     }
-    config[tplName][property as PropertyType] = result
 
-    writeFile(resolve('../dist/config.json'), JSON.stringify(config), 'utf-8', err => {
-      if (err) error(err)
+    try {
+      config.set(tplName, { ...config.get(tplName), [property as PropertyType]: result })
       success('Template updated!\n')
       info('The last template list is: \n')
       list()
-    })
+    } catch (err) {
+      error(err)
+    }
+
+    process.exit()
   })
 }

@@ -1,14 +1,12 @@
 import co from 'co'
 import prompt from 'co-prompt'
-import tempConfig from '../dist/config.json'
-import { ConfigType } from './types'
-import { writeFile } from 'fs'
-import { resolve, error, success, info } from './utils'
-import list from './list'
+import { error, success, info } from './utils'
+import listAll from './list'
 
-const config: {[tplName: string]: ConfigType} = tempConfig
 
-export default () => {
+export default function (this: ShinpCli) {
+  const config = this.config
+  const list = listAll.bind(this)
   co(function* () {
     const tplName = yield prompt('Which template you want to remove: ')
 
@@ -17,18 +15,20 @@ export default () => {
       process.exit(1)
     }
 
-    if (!config[tplName]) {
+    if (!config.has(tplName)) {
       error('Template does not exist!')
       process.exit(1)
     }
 
-    delete config[tplName]
-
-    writeFile(resolve('../dist/config.json'), JSON.stringify(config), 'utf-8', err => {
-      if (err) error(err)
+    try {
+      config.delete(tplName)
       success('Template removed!\n')
       info('The last template list is: \n')
       list()
-    })
+    } catch (err) {
+      error(err)
+    }
+
+    process.exit()
   })
 }
